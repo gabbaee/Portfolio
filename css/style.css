@@ -1,0 +1,1310 @@
+@font-face {
+  font-family: "Stardew_Valley";
+  src: url("../fonts/Stardew_Valley.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --wood-dark: #5c2a0c;
+  --wood: #8f4514;
+  --wood-light: #d77a23;
+
+  --panel: #f3bc63;
+  --panel-light: #ffd88a;
+  --panel-shadow: #c26d28;
+
+  --slot: #efb65b;
+  --slot-light: #ffd98d;
+  --slot-dark: #bd6926;
+
+  --text: #442411;
+
+  --skill-filled: #d4254c;
+  --skill-filled-light: #f14d6b;
+  --skill-empty: #c98a39;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Stardew_Valley", monospace;
+  color: var(--text);
+
+  font-size: 19px;
+  line-height: 1.5;
+}
+
+
+/* PAGE */
+
+.page-shell {
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 112px 28px 65px;
+
+  background:
+    url("../images/background/stardew-sky.jpg")
+    center / cover
+    fixed
+    no-repeat;
+}
+
+.portfolio-window {
+  position: relative;
+
+  width: min(1180px, 96vw);
+
+  background: var(--panel);
+
+  border: 8px solid var(--wood-dark);
+  border-radius: 2px;
+
+  box-shadow:
+    0 8px 0 #3e1c08,
+    0 12px 0 rgba(0, 0, 0, 0.16),
+    inset 0 0 0 4px var(--wood-light);
+}
+
+.portfolio-window::before,
+.portfolio-window::after {
+  content: "";
+
+  position: absolute;
+
+  width: 12px;
+  height: 12px;
+
+  background: #ef9a2b;
+
+  border: 4px solid var(--wood-dark);
+
+  bottom: -10px;
+
+  z-index: 5;
+}
+
+.portfolio-window::before {
+  left: -10px;
+}
+
+.portfolio-window::after {
+  right: -10px;
+}
+
+
+/* IMAGE TABS */
+
+.tabs {
+  position: absolute;
+
+  top: -74px;
+  left: 30px;
+
+  display: flex;
+  gap: 4px;
+
+  z-index: 20;
+}
+
+.tab {
+  width: 68px;
+  height: 74px;
+
+  border: 5px solid var(--wood-dark);
+  border-bottom: 0;
+  border-radius: 2px 2px 0 0;
+
+  background: #d97920;
+
+  box-shadow:
+    inset 3px 3px 0 #f3a443,
+    inset -3px 0 0 #a94f13;
+
+  cursor: pointer;
+
+  display: grid;
+  place-items: center;
+
+  padding: 8px;
+
+  transition: transform 90ms steps(2);
+}
+
+.tab:hover {
+  transform: translateY(-5px);
+}
+
+.tab.active {
+  transform: translateY(-8px);
+
+  background: #efb253;
+
+  box-shadow:
+    inset 3px 3px 0 #ffd47d,
+    inset -3px 0 0 #bd6b22;
+}
+
+.tab img {
+  width: 44px;
+  height: 44px;
+
+  object-fit: contain;
+
+  pointer-events: none;
+}
+
+
+/* SECTIONS */
+
+.content-section {
+  display: none;
+
+  min-height: 575px;
+
+  padding: 30px;
+}
+
+.content-section.active {
+  display: block;
+}
+
+#home.content-section {
+  padding: 0 0 20px;
+
+  min-height: 0;
+  height: auto;
+}
+
+#about.content-section {
+  min-height: 0;
+  height: auto;
+
+  padding: 30px;
+}
+
+h2 {
+  margin: 0 0 24px;
+
+  font-size: clamp(34px, 3.5vw, 46px);
+  line-height: 1.1;
+
+  text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.22);
+}
+
+h3 {
+  margin-top: 0;
+}
+
+
+/* HOME */
+
+#home {
+  padding: 0;
+
+  min-height: 0;
+}
+
+.home-inventory {
+  padding: 22px;
+
+  border-bottom: 7px solid var(--wood-dark);
+
+  background: var(--panel);
+}
+
+.inventory-grid {
+  display: grid;
+
+  grid-template-columns: repeat(10, 1fr);
+
+  gap: 3px;
+}
+
+.inventory-slot {
+  position: relative;
+
+  aspect-ratio: 1;
+
+  font-family: "Stardew_Valley", monospace;
+
+  border: 3px solid var(--slot-dark);
+  border-radius: 0;
+
+  background: var(--slot);
+
+  box-shadow:
+    inset 3px 3px 0 var(--slot-light),
+    inset -3px -3px 0 #a9551e;
+
+  display: grid;
+  place-items: center;
+}
+
+.inventory-slot.item {
+  cursor: pointer;
+}
+
+.inventory-slot.item:hover {
+  background: #f4c46c;
+
+  z-index: 100;;
+}
+
+.inventory-icon {
+  width: 52%;
+  height: 52%;
+
+  object-fit: contain;
+
+  pointer-events: none;
+}
+
+.item-number {
+  position: absolute;
+
+  top: 3px;
+  left: 5px;
+
+  font-size: 15px;
+  font-weight: 700;
+}
+
+
+/* INVENTORY TOOL TIPS */
+
+.slot-tooltip {
+  pointer-events: none;
+
+  position: absolute;
+
+  left: 50%;
+  top: calc(100% + 8px);
+  bottom: auto;
+
+  transform: translateX(-50%);
+
+  width: max-content;
+
+  padding: 8px 11px;
+
+  border: 3px solid var(--wood-dark);
+
+  background: #ffe7a1;
+
+  box-shadow: 3px 3px 0 #8e4917;
+
+  font-family: "Stardew_Valley", monospace;
+  font-size: 18px;
+  font-weight: normal;
+
+  opacity: 0;
+  visibility: hidden;
+
+  z-index: 100;
+}
+
+.inventory-slot.item:hover .slot-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/* HOME PROFILE */
+
+.home-profile {
+  min-height: 0;
+
+  display: grid;
+
+  grid-template-columns:
+    62px
+    175px
+    62px
+    1fr;
+
+  gap: 14px;
+
+  align-items: stretch;
+
+  padding: 22px 28px 0;
+
+  background: var(--panel);
+}
+
+.equipment-column {
+  display: grid;
+
+  grid-template-rows: repeat(3, 1fr);
+
+  gap: 4px;
+}
+
+.equip-slot {
+  display: grid;
+  place-items: center;
+
+  min-height: 58px;
+
+  border: 3px solid var(--slot-dark);
+
+  background: var(--slot);
+
+  box-shadow:
+    inset 3px 3px 0 var(--slot-light),
+    inset -3px -3px 0 #a9551e;
+}
+
+.equip-slot img {
+  width: 70%;
+  height: 70%;
+
+  object-fit: contain;
+}
+
+.portrait-frame {
+  border: 5px solid var(--wood-dark);
+
+  background: #bd661c;
+
+  padding: 5px;
+
+  box-shadow:
+    inset 3px 3px 0 #f1a13c;
+}
+
+.portrait-bg {
+  width: 100%;
+  height: 100%;
+
+  min-height: 190px;
+
+  display: grid;
+  place-items: end center;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #76c5e9 0 58%,
+      #72b850 58% 100%
+    );
+}
+
+.tab img,
+.inventory-icon,
+.equip-slot img,
+.skill-name img {
+  image-rendering: auto;
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+  object-position: bottom;
+
+  image-rendering: auto;
+}
+
+.profile-info {
+  padding: 4px 4px 0;
+}
+
+.profile-info h1 {
+  margin: 0 0 15px;
+
+  font-size: clamp(36px, 4.5vw, 48px);
+  line-height: 1.05;
+}
+
+.profile-info p {
+  margin: 10px 0;
+
+  font-size: 25px;
+  line-height: 1.45;
+}
+
+.profile-info strong {
+  font-size: 21px;
+}
+
+
+/* ABOUT */
+
+.about-layout {
+  display: grid;
+
+  grid-template-columns: 285px 1fr;
+
+  gap: 38px;
+
+  align-items: stretch;
+}
+
+.pixel-portrait {
+  width: 100%;
+  min-height: 390px;
+  height: 100%;
+
+  border: 5px solid var(--wood-dark);
+
+  box-shadow:
+    inset 4px 4px 0 #f0a23b;
+
+  overflow: hidden;
+
+  display: grid;
+  place-items: end center;
+}
+
+.about-avatar {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+  object-position: bottom;
+
+  image-rendering: auto;
+}
+
+.about-copy h3 {
+  margin-bottom: 5px;
+
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+.about-copy p {
+  font-size: 22px;
+  line-height: 1.55;
+}
+
+.subtitle {
+  margin-top: 0;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  opacity: 0.72;
+}
+
+.stat-card {
+  margin-top: 12px;
+
+  padding: 13px 15px;
+
+  border: 3px solid #c4772b;
+
+  background: #f8cb78;
+
+  box-shadow:
+    inset 2px 2px 0 #ffe09b;
+
+  display: flex;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  font-size: 18px;
+}
+
+.stat-card strong {
+  font-size: 19px;
+}
+
+
+/* SKILLS */
+
+#skills {
+  position: relative;
+
+  padding-bottom: 135px;
+}
+
+.skills-layout {
+  display: grid;
+
+  grid-template-columns: 195px 1fr;
+
+  gap: 38px;
+}
+
+.skills-character {
+  text-align: center;
+}
+
+.skills-portrait {
+  height: 270px;
+
+  padding: 5px;
+
+  border: 5px solid var(--wood-dark);
+
+  background: #bd661c;
+
+  box-shadow:
+    inset 3px 3px 0 #f1a13c;
+}
+
+.character-name {
+  margin-top: 12px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.character-name strong {
+  font-size: 30px;
+}
+
+.character-name span {
+  font-size: 20px;
+}
+
+.stats-list {
+  display: grid;
+
+  gap: 16px;
+
+  align-content: start;
+}
+
+.skill-row {
+  display: grid;
+
+  grid-template-columns: 200px 1fr 34px;
+
+  gap: 13px;
+
+  align-items: center;
+}
+
+.skill-name {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  font-size: 20px;
+}
+
+.skill-name img {
+  width: 30px;
+  height: 30px;
+
+  object-fit: contain;
+}
+
+.level-bar {
+  display: grid;
+
+  grid-template-columns: repeat(10, 1fr);
+
+  gap: 3px;
+}
+
+.level-segment {
+  aspect-ratio: 1;
+
+  min-height: 22px;
+
+  border: 3px solid #9e5a24;
+
+  background: var(--skill-empty);
+
+  box-shadow:
+    inset 2px 2px 0 #ebbd63,
+    inset -2px -2px 0 #94531e;
+}
+
+.level-segment.filled {
+  border-color: #8d1632;
+
+  background: var(--skill-filled);
+
+  box-shadow:
+    inset 2px 2px 0 var(--skill-filled-light),
+    inset -2px -2px 0 #83132c;
+}
+
+.level-number {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.wallet-box {
+  position: absolute;
+
+  left: 30px;
+  right: 30px;
+  bottom: 26px;
+
+  min-height: 90px;
+
+  padding: 42px 20px 18px;
+
+  border: 5px solid var(--wood-dark);
+
+  background: var(--panel-light);
+
+  box-shadow:
+    inset 3px 3px 0 #ffe29b,
+    inset -3px -3px 0 #c67629;
+}
+
+.wallet-label {
+  position: absolute;
+
+  left: 32px;
+  top: -23px;
+
+  padding: 6px 17px;
+
+  border: 4px solid var(--wood-dark);
+
+  background: #eca949;
+
+  box-shadow:
+    inset 2px 2px 0 #ffd77e;
+
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.wallet-box p {
+  margin: 0;
+
+  font-size: 20px;
+  line-height: 1.45;
+}
+
+
+/* PROJECTS */
+
+.project-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 20px;
+}
+
+.project-card {
+  overflow: hidden;
+
+  border: 5px solid var(--wood-dark);
+
+  background: var(--panel-light);
+
+  box-shadow:
+    inset 0 0 0 3px var(--wood-light),
+    4px 4px 0 rgba(86, 39, 12, 0.22);
+
+  transition: transform 90ms steps(2);
+
+  cursor: pointer;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+}
+
+.project-image {
+  display: block;
+
+  width: 100%;
+  height: 175px;
+
+  object-fit: cover;
+
+  border-bottom: 5px solid var(--wood-dark);
+
+  image-rendering: auto;
+}
+
+.project-body {
+  padding: 19px;
+}
+
+.project-body h3 {
+  margin-bottom: 8px;
+
+  font-size: 30px;
+  line-height: 1.15;
+}
+
+.project-body p {
+  min-height: 70px;
+
+  font-size: 24px;
+  line-height: 1.5;
+}
+
+.tag-row {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 7px;
+}
+
+.tag-row span {
+  padding: 6px 9px;
+
+  border: 2px solid var(--wood);
+
+  background: #eeb057;
+
+  box-shadow:
+    inset 1px 1px 0 #ffd47d;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.letter-project-link {
+  margin-top: 28px;
+  padding-top: 20px;
+
+  border-top: 3px solid #c77a2c;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.letter-project-link strong {
+  font-size: 25px;
+}
+
+.letter-project-link a {
+  padding: 10px 18px;
+
+  color: var(--text);
+  text-decoration: none;
+
+  border: 3px solid var(--wood-dark);
+
+  background: #efb357;
+
+  box-shadow:
+    inset 2px 2px 0 #ffd579,
+    inset -2px -2px 0 #a85b1c;
+
+  font-size: 25px;
+  font-weight: 700;
+
+  transition: transform 90ms steps(2);
+}
+
+.letter-project-link a:hover {
+  transform: translateY(-3px);
+  background: #f6c56d;
+}
+
+/* CONTACT */
+
+.letter-card {
+  max-width: 700px;
+
+  margin: 0 auto;
+
+  padding: 18px 30px;
+
+  border: 5px solid var(--wood);
+
+  background: #ffe9ad;
+
+  box-shadow:
+    inset 3px 3px 0 #fff4c9,
+    inset -3px -3px 0 #c8792b;
+}
+
+.letter-card p {
+  margin: 8px 0 14px;
+
+  font-size: 30px;
+  line-height: 1.45;
+}
+
+.contact-button {
+  margin-top: 13px;
+
+  padding: 14px 16px;
+
+  display: block;
+
+  color: var(--text);
+  text-decoration: none;
+
+  border: 3px solid var(--wood-dark);
+
+  background: #efb357;
+
+  box-shadow:
+    inset 2px 2px 0 #ffd579,
+    inset -2px -2px 0 #a85b1c;
+
+  font-size: 30px;
+  font-weight: 700;
+
+  transition: transform 90ms steps(2);
+}
+
+.contact-button:hover {
+  transform: translateX(4px);
+}
+
+
+/* BOTTOM CHARACTER BAR */
+
+.character-bar {
+  padding: 18px 25px;
+
+  display: grid;
+
+  grid-template-columns: 72px 1fr auto;
+
+  align-items: center;
+
+  gap: 18px;
+
+  border-top: 7px solid var(--wood-dark);
+
+  background: #e7a447;
+
+  box-shadow:
+    inset 0 4px 0 #f8c36e;
+}
+
+.mini-avatar {
+  width: 62px;
+  height: 62px;
+
+  overflow: hidden;
+
+  display: grid;
+  place-items: end center;
+
+  border: 4px solid var(--wood-dark);
+
+  background: #66a552;
+}
+
+.mini-avatar img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+  object-position: bottom;
+}
+
+.character-details {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.character-details strong {
+  font-size: 27px;
+}
+
+.character-details span {
+  font-size: 20px;
+}
+
+
+/* PROJECT LETTER POPUP */
+
+.project-modal {
+  position: fixed;
+
+  inset: 0;
+
+  background: rgba(16, 20, 32, 0.72);
+
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+
+  z-index: 999;
+}
+
+.project-modal.show {
+  display: flex;
+}
+
+.project-letter {
+  position: relative;
+
+  width: min(780px, 92vw);
+
+  min-height: 480px;
+
+  padding: 42px 48px;
+
+  background:
+    linear-gradient(
+      rgba(255, 245, 201, 0.94),
+      rgba(255, 230, 157, 0.96)
+    );
+
+  color: #743b1e;
+
+  border: 6px solid #c77a2c;
+
+  box-shadow:
+    inset 0 0 0 4px #f8c96e,
+    8px 8px 0 rgba(55, 29, 10, 0.35);
+}
+
+.project-letter::before,
+.project-letter::after {
+  content: "";
+
+  position: absolute;
+
+  width: 24px;
+  height: 24px;
+
+  background: #f6cf83;
+
+  border: 4px solid #c77a2c;
+}
+
+.project-letter::before {
+  left: -12px;
+  top: 42%;
+}
+
+.project-letter::after {
+  right: -12px;
+  bottom: 18px;
+}
+
+.letter-content {
+  line-height: 1.55;
+
+  font-size: 25px;
+}
+
+.letter-content h2 {
+  margin: 0 0 20px;
+
+  font-size: 39px;
+}
+
+.letter-content p {
+  margin: 12px 0;
+
+  font-size: 25px;
+}
+
+.letter-divider {
+  height: 3px;
+
+  margin: 24px 0;
+
+  background: #c77a2c;
+}
+
+.letter-content ul {
+  padding-left: 26px;
+
+  margin-top: 8px;
+}
+
+.letter-content li {
+  margin-bottom: 8px;
+
+  font-size: 25px;
+}
+
+.letter-close {
+  position: absolute;
+
+  top: -22px;
+  right: -22px;
+
+  width: 46px;
+  height: 46px;
+
+  border: 5px solid #6b2d0b;
+
+  background: #cf531d;
+
+  color: #fff1bd;
+
+  font-family: inherit;
+
+  font-size: 32px;
+  font-weight: bold;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  box-shadow:
+    inset 3px 3px 0 #ef8b3c,
+    inset -3px -3px 0 #87310e;
+}
+
+.letter-close:hover {
+  transform: scale(1.08);
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+
+  .page-shell {
+    align-items: flex-start;
+
+    padding-top: 100px;
+  }
+
+  .tabs {
+    left: 10px;
+
+    gap: 3px;
+  }
+
+  .tab {
+    width: 58px;
+  }
+
+  .tab img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .inventory-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .home-profile {
+    min-height: 0;
+    height: auto;
+
+    padding: 22px 28px 0;
+  }
+
+  .about-layout,
+  .skills-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .skills-character {
+    display: grid;
+
+    grid-template-columns: 150px 1fr;
+
+    align-items: center;
+
+    gap: 18px;
+
+    text-align: left;
+  }
+
+  .skills-portrait {
+    height: 190px;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  body {
+    font-size: 17px;
+  }
+
+  .page-shell {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .content-section {
+    padding: 20px;
+  }
+
+  #home.content-section {
+    padding: 0 0 16px;
+
+    min-height: 0;
+  }
+
+  #about.content-section {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 34px;
+  }
+
+  .home-profile {
+    grid-template-columns:
+      44px
+      100px
+      44px
+      1fr;
+
+    gap: 7px;
+
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .profile-info h1 {
+    font-size: 29px;
+  }
+
+  .profile-info p {
+    margin: 6px 0;
+
+    font-size: 15px;
+  }
+
+  .profile-info strong {
+    font-size: 16px;
+  }
+
+  .about-copy h3 {
+    font-size: 34px;
+  }
+
+  .about-copy p {
+    font-size: 17px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+  }
+
+  .stat-card {
+    flex-direction: column;
+
+    gap: 5px;
+
+    font-size: 17px;
+  }
+
+  .stat-card strong {
+    font-size: 18px;
+  }
+
+  .skill-row {
+    grid-template-columns: 1fr;
+
+    gap: 7px;
+  }
+
+  .skill-name {
+    font-size: 18px;
+  }
+
+  .level-number {
+    display: none;
+  }
+
+  .wallet-box p {
+    font-size: 16px;
+  }
+
+  .project-body h3 {
+    font-size: 27px;
+  }
+
+  .project-body p {
+    font-size: 17px;
+  }
+
+  .tag-row span {
+    font-size: 14px;
+  }
+
+  .character-bar {
+    grid-template-columns: 60px 1fr;
+  }
+
+  .character-details strong {
+    font-size: 23px;
+  }
+
+  .character-details span {
+    font-size: 15px;
+  }
+
+  .project-modal {
+    padding: 18px;
+  }
+
+  .project-letter {
+    width: 94vw;
+
+    min-height: 0;
+
+    padding: 34px 25px;
+  }
+
+  .letter-content {
+    font-size: 18px;
+  }
+
+  .letter-content h2 {
+    font-size: 33px;
+  }
+
+  .letter-content p {
+    font-size: 18px;
+  }
+
+  .letter-content li {
+    font-size: 17px;
+  }
+
+  .letter-close {
+    top: -18px;
+    right: -12px;
+
+    width: 42px;
+    height: 42px;
+
+    font-size: 28px;
+  }
+}
