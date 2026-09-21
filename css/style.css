@@ -1308,3 +1308,73 @@ h3 {
     font-size: 28px;
   }
 }
+
+/* MUSIC BUTTON */
+
+.music-button {
+  position: fixed;
+  top: 25px;
+  right: 30px;
+  bottom: auto;
+  left: auto;
+
+  width: 50px;
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px;
+
+  background: var(--panel);
+  border: 5px solid var(--wood-dark);
+  border-radius: 4px;
+
+  box-shadow:
+    inset 3px 3px 0 var(--panel-light),
+    inset -3px -3px 0 var(--panel-shadow),
+    4px 4px 0 rgba(0, 0, 0, 0.3);
+
+  cursor: pointer;
+
+  z-index: 9999;
+}
+
+.music-button img {
+  width: 25px;
+  height: 25px;
+
+  object-fit: contain;
+
+  pointer-events: none;
+}
+
+.music-button:hover {
+  transform: scale(1.08);
+  filter: brightness(1.08);
+}
+
+.music-button:active {
+  transform: translate(2px, 2px);
+}
+
+.music-button.muted img {
+  opacity: 0.4;
+  filter: grayscale(1);
+}
+
+.music-button.muted::after {
+  content: "×";
+
+  position: absolute;
+
+  font-family: "Stardew_Valley", monospace;
+  font-size: 48px;
+
+  color: #8b241c;
+
+  line-height: 1;
+
+  pointer-events: none;
+}
