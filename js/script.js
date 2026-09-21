@@ -16,6 +16,9 @@ const letterFeatures = document.getElementById("letterFeatures");
 const letterLink = document.getElementById("letterLink");
 const letterProjectLink = document.getElementById("letterProjectLink");
 
+const backgroundMusic = document.getElementById("backgroundMusic");
+const musicButton = document.getElementById("musicButton");
+
 function openSection(sectionId) {
 
   sections.forEach(section => {
@@ -245,6 +248,107 @@ document.addEventListener("keydown", event => {
 
   if (event.key === "Escape") {
     projectModal.classList.remove("show");
+  }
+
+});
+
+const songs = [
+  "audio/Calico Desert.mp3",
+  "audio/Load Game.mp3",
+  "audio/Overture.mp3",
+  "audio/Pelican Town.mp3",
+  "audio/Settling In.mp3",
+  "audio/Spring.mp3",
+  "audio/Summer.mp3"
+];
+
+backgroundMusic.volume = 0.05;
+
+let currentSong = -1;
+let autoplayBlocked = false;
+
+
+function chooseRandomSong() {
+
+  let newSong;
+
+  do {
+    newSong = Math.floor(Math.random() * songs.length);
+  } while (
+    newSong === currentSong &&
+    songs.length > 1
+  );
+
+  currentSong = newSong;
+  backgroundMusic.src = songs[currentSong];
+}
+
+
+chooseRandomSong();
+
+
+function tryAutoplay() {
+
+  backgroundMusic.play()
+    .then(() => {
+
+      musicButton.classList.remove("muted");
+
+    })
+    .catch(() => {
+
+      autoplayBlocked = true;
+      musicButton.classList.add("muted");
+
+    });
+
+}
+
+
+tryAutoplay();
+
+document.addEventListener("click", (event) => {
+
+  if (
+    autoplayBlocked &&
+    !event.target.closest("#musicButton")
+  ) {
+
+    backgroundMusic.play();
+
+    autoplayBlocked = false;
+
+    musicButton.classList.remove("muted");
+
+  }
+
+});
+
+backgroundMusic.addEventListener("ended", () => {
+
+  chooseRandomSong();
+  backgroundMusic.play();
+
+});
+
+musicButton.addEventListener("click", (event) => {
+
+  event.stopPropagation();
+
+  if (backgroundMusic.paused) {
+
+    backgroundMusic.play();
+
+    autoplayBlocked = false;
+
+    musicButton.classList.remove("muted");
+
+  } else {
+
+    backgroundMusic.pause();
+
+    musicButton.classList.add("muted");
+
   }
 
 });
